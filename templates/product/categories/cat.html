@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <main class="main__content_wrapper">
+        <!-- Start shop section -->
+        <div class="shop__section section--padding ">
+            <div class="container">
+                <div class="row ">
+
+                    <div class="shop__right--sidebar">
+                        <!-- Start categories section -->
+                        <div class="categories__shop mb-50 ">
+                            <div class="section__heading border-bottom mb-30">
+                                <h2 class="section__heading--maintitle">Shop By <span>Categories</span></h2>
+                            </div>
+                            <ul class="categories__shop--inner">
+
+                                {% if child_categories %}
+                                    <ul>
+                                         {% for category in child_categories %}
+                                            <li class="categories__shop--card">
+                                                <a class="categories__shop--card__link" href="{{ category.get_absolute_url }}">
+                                                    <div class="categories__thumbnail mb-15">
+                                                        <img class="categories__thumbnail--img"
+                                                             src="{% static 'assets/img/product/main-product/product1.webp' %}"
+                                                             alt="categories-img">
+                                                    </div>
+                                                    <div class="categories__content">
+                                                        <h2 class="categories__content--title">{{ category.name }}</h2>
+                                                        <span class="categories__content--subtitle">(20 Items)</span>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% else %}
+                                    <p>Нет дочерних категорий для выбранной родительской категории.</p>
+                                {% endif %}
+
+
+                            </ul>
+                        </div>
+                        <!-- End categories section -->
+                        <div class="pagination__area">
+                            <nav class="pagination justify-content-center">
+                                <ul class="pagination__wrapper d-flex align-items-center justify-content-center">
+                                    <li class="pagination__list">
+                                        <a href="shop.html" class="pagination__item--arrow  link ">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="22.51"
+                                                 height="20.443" viewBox="0 0 512 512">
+                                                <path fill="none" stroke="currentColor" stroke-linecap="round"
+                                                      stroke-linejoin="round" stroke-width="48"
+                                                      d="M244 400L100 256l144-144M120 256h292"></path>
+                                            </svg>
+                                            <span class="visually-hidden">page left arrow</span>
+                                        </a>
+                                    <li>
+                                    <li class="pagination__list"><span
+                                            class="pagination__item pagination__item--current">1</span></li>
+                                    <li class="pagination__list"><a href="shop.html"
+                                                                    class="pagination__item link">2</a></li>
+                                    <li class="pagination__list"><a href="shop.html"
+                                                                    class="pagination__item link">3</a></li>
+                                    <li class="pagination__list"><a href="shop.html"
+                                                                    class="pagination__item link">4</a></li>
+                                    <li class="pagination__list">
+                                        <a href="shop.html" class="pagination__item--arrow  link ">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="22.51"
+                                                 height="20.443" viewBox="0 0 512 512">
+                                                0000000000000000000000000000
+                                                <path fill="none" stroke="currentColor" stroke-linecap="round"
+                                                      stroke-linejoin="round" stroke-width="48"
+                                                      d="M268 112l144 144-144 144M392 256H100"></path>
+                                            </svg>
+                                            <span class="visually-hidden">page right arrow</span>
+                                        </a>
+                                    <li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- End shop section -->
+    </main>
+{% endblock %}

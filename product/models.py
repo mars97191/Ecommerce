@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Category(models.Model):
@@ -6,13 +7,26 @@ class Category(models.Model):
     slug = models.SlugField(unique=True)
     is_active = models.BooleanField("Активна", default=False)
     # ForeignKey
-    parent = models.ForeignKey('self', on_delete=models.PROTECT, null=True, blank=True, verbose_name="Родитель")
+    parent = models.ForeignKey('self', on_delete=models.PROTECT,related_name='children', null=True, blank=True, verbose_name="Родитель")
 
     class Meta:
         verbose_name_plural = "Категории"
 
+    def get_absolute_url(self):
+        return reverse('product:products_by_category', args=[self.slug])
+
     def __str__(self):
         return self.name
+
+class ProductType(models.Model):
+    name = models.CharField("Название", max_length=100)
+    parent = models.ForeignKey('self', on_delete=models.PROTECT, verbose_name="Родитель", null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = " Тип продукта"
 
 
 class Product(models.Model):
@@ -35,25 +49,21 @@ class Product(models.Model):
     price = models.DecimalField("Цена", max_digits=6, decimal_places=2)
     # ForeignKey
     category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name="Категория")
-
-    # ManyToMany
-    product_type = models.ManyToManyField('ProductType', related_name='product_type',
-                                          verbose_name="Тип продукта")
-    attribute_values = models.ManyToManyField('AttributeValue', related_name='attribute_values',
-                                              verbose_name='Значение атрибута')
-
+    product_type = models.ForeignKey(ProductType, on_delete=models.PROTECT, verbose_name="Тип продукта")
     def __str__(self):
         return self.name
 
     class Meta:
         verbose_name_plural = "Продукты"
 
+    def get_absolute_url(self):
+        return reverse('product:product_detail', args=[self.slug])
+
 
 class ProductImage(models.Model):
     alternative_text = models.CharField(max_length=100)
     url = models.ImageField("Фото")
-    # ForeignKey
-    product_line = models.ForeignKey('Product', on_delete=models.CASCADE, verbose_name="Линейка продуктов")
+    product = models.ForeignKey('Product', on_delete=models.CASCADE, verbose_name="Линейка продуктов")
 
 
 class Attribute(models.Model):
@@ -69,21 +79,9 @@ class Attribute(models.Model):
 
 
 class AttributeValue(models.Model):
-    attribute_value = models.CharField(" Значение атрибута", max_length=100)
+    value = models.CharField(" Значение атрибута", max_length=100)
     attribute = models.ForeignKey(Attribute, on_delete=models.CASCADE, verbose_name="Атрибут")
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Продукт")
 
     def __str__(self):
-        return f"{self.attribute}:{self.attribute_value}"
-
-
-class ProductType(models.Model):
-    name = models.CharField("Название", max_length=100)
-    parent = models.ForeignKey('self', on_delete=models.PROTECT, verbose_name="Родитель", null=True, blank=True)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name_plural = " Тип продукта"
-
+        return f"{self.attribute}:{self.value}"
