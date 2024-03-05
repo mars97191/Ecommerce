@@ -23,7 +23,7 @@
                                                 <a class="categories__shop--card__link" href="{{ category.get_absolute_url }}">
                                                     <div class="categories__thumbnail mb-15">
                                                         <img class="categories__thumbnail--img"
-                                                             src="{% static 'assets/img/product/main-product/product1.webp' %}"
+                                                             src="{{ category.image.url }}"
                                                              alt="categories-img">
                                                     </div>
                                                     <div class="categories__content">

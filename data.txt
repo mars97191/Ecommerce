@@ -1,0 +1,3 @@
+C:\Users\My comp\Documents\NewStore\.venv\Lib\site-packages\django\contrib\auth\views.py
+class RedirectURLMixin:
+    next_page = 'product:index' #  было None

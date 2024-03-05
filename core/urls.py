@@ -6,7 +6,11 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('product.urls', namespace='product'))
+    path('', include('product.urls', namespace='product')),
+    path('accounts/', include('users.urls', namespace='users')),
+    path('basket/', include('basket.urls', namespace='cart')),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
+    # path('accounts/', include('django.contrib.auth.urls')),
 ]
 
 

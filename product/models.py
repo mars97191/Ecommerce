@@ -1,13 +1,17 @@
 from django.db import models
 from django.urls import reverse
+from imagekit.models import ImageSpecField
+from ckeditor.fields import RichTextField
 
 
 class Category(models.Model):
     name = models.CharField("Название", max_length=100, unique=True)
     slug = models.SlugField(unique=True)
     is_active = models.BooleanField("Активна", default=False)
+    image = models.ImageField("Фото", upload_to='category/', blank=True)
     # ForeignKey
-    parent = models.ForeignKey('self', on_delete=models.PROTECT,related_name='children', null=True, blank=True, verbose_name="Родитель")
+    parent = models.ForeignKey('self', on_delete=models.PROTECT, related_name='children', null=True, blank=True,
+                               verbose_name="Родитель")
 
     class Meta:
         verbose_name_plural = "Категории"
@@ -17,6 +21,7 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class ProductType(models.Model):
     name = models.CharField("Название", max_length=100)
@@ -38,7 +43,8 @@ class Product(models.Model):
     pid = models.CharField("Идентификатор", max_length=255, null=False, blank=False, unique=True)
     name = models.CharField("Название", max_length=100)
     slug = models.SlugField(unique=True, blank=True)
-    description = models.TextField("Описание", blank=True, null=True)
+    description = RichTextField("Описание", blank=True, null=True)
+    additional_info = RichTextField('Характеристики', blank=True, null=True)
     is_digital = models.BooleanField("Цифровые данные", default=False)
     created_at = models.DateTimeField("Дата создания", auto_now_add=True, editable=False)
     updated_at = models.DateTimeField("Дата обновления", auto_now=True, editable=False)
@@ -47,9 +53,11 @@ class Product(models.Model):
                                     default=StockStatus.OUT_OF_STOCK)
     stock_qty = models.IntegerField("Кол-во на складе", default=0)
     price = models.DecimalField("Цена", max_digits=6, decimal_places=2)
+    main_image = models.ImageField("Фото", upload_to='products/main/', blank=True)
     # ForeignKey
     category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name="Категория")
     product_type = models.ForeignKey(ProductType, on_delete=models.PROTECT, verbose_name="Тип продукта")
+
     def __str__(self):
         return self.name
 
@@ -61,9 +69,22 @@ class Product(models.Model):
 
 
 class ProductImage(models.Model):
-    alternative_text = models.CharField(max_length=100)
-    url = models.ImageField("Фото")
-    product = models.ForeignKey('Product', on_delete=models.CASCADE, verbose_name="Линейка продуктов")
+    image = models.ImageField("Фото", upload_to='products/%Y/%m/%d')
+    # Добавьте поле для производного изображения (например, для создания миниатюры)
+    thumbnail = ImageSpecField(
+        source='image',
+        format='JPEG',
+        options={'quality':100}
+    )
+
+    product = models.ForeignKey('Product', on_delete=models.CASCADE, verbose_name="Продукт", related_name='images')
+    is_main = models.BooleanField("Главное фото", default=False)
+
+    def __str__(self):
+        return f"Фото для {self.product}"
+
+    class Meta:
+        verbose_name_plural = "Фото"
 
 
 class Attribute(models.Model):
