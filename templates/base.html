@@ -289,8 +289,7 @@
             // Обновляем количество товаров в корзине
             updateCartCount();
 
-            // Сохраняем значение в localStorage
-            localStorage.setItem('product_' + productId + '_quantity', quantity);
+
         });
 
         // Функция для обновления общей суммы корзины
@@ -315,14 +314,7 @@
             $('#lblCartCount').text(totalQuantity);
         }
 
-        // При загрузке страницы восстанавливаем значения из localStorage
-        $('.quantity__number').each(function () {
-            const productId = $(this).data('product-id');
-            const quantity = localStorage.getItem('product_' + productId + '_quantity');
-            if (quantity !== null) {
-                $(this).val(quantity).trigger('change');
-            }
-        });
+
 
     });
 </script>

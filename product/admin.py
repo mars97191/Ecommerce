@@ -1,7 +1,6 @@
 from django.contrib import admin
 
-from .models import Category, Product, ProductType, AttributeValue, Attribute, ProductImage, ProductReview, Wishlist, \
-    CartOrder, CartOrderItems, Address
+from .models import Category, Product, ProductType, AttributeValue, Attribute, ProductImage, ProductReview, Wishlist
 
 
 # Инлайн категорий
@@ -71,8 +70,3 @@ class ProductReviewAdmin(admin.ModelAdmin):
 @admin.register(Wishlist)
 class WishlistAdmin(admin.ModelAdmin):
     list_display = ("user", "product")
-
-
-admin.site.register(CartOrder)
-admin.site.register(CartOrderItems)
-admin.site.register(Address)

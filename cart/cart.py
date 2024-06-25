@@ -16,6 +16,9 @@ class Cart():
 
         self.cart = cart
 
+    def save(self):
+        self.session.modified = True
+
     
     def __len__(self):
         return sum(item['qty'] for item in self.cart.values())
@@ -60,3 +63,7 @@ class Cart():
 
     def get_total_price(self):
         return sum(Decimal(item['price']) * item['qty'] for item in self.cart.values())
+
+    def clear(self):
+        del self.session['session_key']
+        self.save()

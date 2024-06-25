@@ -45,7 +45,7 @@
                                                     </div>
                                                 </td>
                                                 <td class="cart__table--body__list">
-                                                    <span class="cart__price">{{ item.price|floatformat:2 }}</span>
+                                                    <span class="cart__price">{{ item.price|floatformat:1 }}</span>
                                                 </td>
                                                 <td class="cart__table--body__list">
                                                     <div class="quantity__box">
@@ -129,7 +129,7 @@
                                             </button>
                                         </li>
                                         <li><a class="cart__summary--footer__btn primary__btn checkout"
-                                               href="">Оформить заказ</a></li>
+                                               href="{% url 'payment:checkout' %}">Оформить заказ</a></li>
                                     </ul>
                                 </div>
                             </div>
