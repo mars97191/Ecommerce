@@ -3,6 +3,16 @@ from django.urls import reverse
 from imagekit.models import ImageSpecField
 from ckeditor.fields import RichTextField
 
+from users.models import User
+
+Rating = (
+    (1, "⭐☆☆☆☆"),
+    (2, "⭐⭐☆☆☆"),
+    (3, "⭐⭐⭐☆☆"),
+    (4, "⭐⭐⭐⭐☆"),
+    (5, "⭐⭐⭐⭐⭐"),
+)
+
 
 class Category(models.Model):
     name = models.CharField("Название", max_length=100, unique=True)
@@ -40,7 +50,6 @@ class Product(models.Model):
         OUT_OF_STOCK = 'OOS', 'Out of stock'
         BACKORDERED = 'BO', 'Back Ordered'
 
-    pid = models.CharField("Идентификатор", max_length=255, null=False, blank=False, unique=True)
     name = models.CharField("Название", max_length=100)
     slug = models.SlugField(unique=True, blank=True)
     description = RichTextField("Описание", blank=True, null=True)
@@ -51,6 +60,7 @@ class Product(models.Model):
     is_active = models.BooleanField("Наличие", default=True)
     stock_status = models.CharField("Статус товара", max_length=3, choices=StockStatus.choices,
                                     default=StockStatus.OUT_OF_STOCK)
+
     stock_qty = models.IntegerField("Кол-во на складе", default=0)
     price = models.DecimalField("Цена", max_digits=6, decimal_places=2)
     main_image = models.ImageField("Фото", upload_to='products/main/', blank=True)
@@ -74,7 +84,7 @@ class ProductImage(models.Model):
     thumbnail = ImageSpecField(
         source='image',
         format='JPEG',
-        options={'quality':100}
+        options={'quality': 100}
     )
 
     product = models.ForeignKey('Product', on_delete=models.CASCADE, verbose_name="Продукт", related_name='images')
@@ -106,3 +116,41 @@ class AttributeValue(models.Model):
 
     def __str__(self):
         return f"{self.attribute}:{self.value}"
+
+
+######################################## Cart, Order,OrderItems ##################################
+class CartOrder(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Пользователь")
+    paid_status = models.BooleanField(default=False)
+    price = models.DecimalField("Цена", max_digits=6, decimal_places=2)
+
+
+class CartOrderItems(models.Model):
+    order = models.ForeignKey(CartOrder, on_delete=models.CASCADE)
+    invoice_no = models.CharField(max_length=200)
+    product_status = models.CharField(max_length=200)
+    item = models.CharField(max_length=100)
+    qty = models.IntegerField(default=0)
+    price = models.DecimalField("Цена", max_digits=6, decimal_places=2)
+    total = models.DecimalField("Общая цена", max_digits=8, decimal_places=2)
+
+
+############################ Product Review, wishlist, Addres #########################
+
+class ProductReview(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Пользователь")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Продукт", related_name="reviews")
+    review = models.TextField()
+    rating = models.IntegerField(default=None, choices=Rating)
+    data = models.DateTimeField(auto_now_add=True)
+
+
+class Wishlist(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Пользователь")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Продукт")
+    data = models.DateTimeField(auto_now_add=True)
+
+
+class Address(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    address = models.CharField(max_length=100, null=True)

@@ -1,7 +1,7 @@
-
 from django.contrib import admin
 
-from .models import Category, Product, ProductType, AttributeValue, Attribute, ProductImage
+from .models import Category, Product, ProductType, AttributeValue, Attribute, ProductImage, ProductReview, Wishlist, \
+    CartOrder, CartOrderItems, Address
 
 
 # Инлайн категорий
@@ -56,8 +56,23 @@ class ProductTypeAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ("name", 'category', 'stock_status', 'is_active')
+    list_display = ("id", "name", 'category', 'stock_status', 'is_active')
     list_filter = ("stock_status", 'category', 'is_active')
     search_fields = ('name',)
     prepopulated_fields = {'slug': ('name',)}
     inlines = [ProductImageInline, AttributeValueInline]
+
+
+@admin.register(ProductReview)
+class ProductReviewAdmin(admin.ModelAdmin):
+    list_display = ("user", "product", "rating", "review")
+
+
+@admin.register(Wishlist)
+class WishlistAdmin(admin.ModelAdmin):
+    list_display = ("user", "product")
+
+
+admin.site.register(CartOrder)
+admin.site.register(CartOrderItems)
+admin.site.register(Address)

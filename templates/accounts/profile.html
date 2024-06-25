@@ -11,30 +11,31 @@
                                 <li class="nav-item">
                                     <a class="nav-link active" id="dashboard-tab" data-bs-toggle="tab" href="#dashboard"
                                        role="tab" aria-controls="dashboard" aria-selected="false"><i
-                                            class="fi-rs-settings-sliders mr-10"></i>Dashboard</a>
+                                            class="fi-rs-settings-sliders mr-10"></i>Личный кабинет</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="orders-tab" data-bs-toggle="tab" href="#orders" role="tab"
                                        aria-controls="orders" aria-selected="false"><i
-                                            class="fi-rs-shopping-bag mr-10"></i>Orders</a>
+                                            class="fi-rs-shopping-bag mr-10"></i>Заказы</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="track-orders-tab" data-bs-toggle="tab" href="#track-orders"
                                        role="tab" aria-controls="track-orders" aria-selected="false"><i
-                                            class="fi-rs-shopping-cart-check mr-10"></i>Track Your Order</a>
+                                            class="fi-rs-shopping-cart-check mr-10"></i>Отследить ваш заказ</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="address-tab" data-bs-toggle="tab" href="#address" role="tab"
-                                       aria-controls="address" aria-selected="true"><i class="fi-rs-marker mr-10"></i>My
-                                        Address</a>
+                                       aria-controls="address" aria-selected="true"><i class="fi-rs-marker mr-10"></i>Мой
+                                        адрес</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="account-detail-tab" data-bs-toggle="tab"
                                        href="#account-detail" role="tab" aria-controls="account-detail"
-                                       aria-selected="true"><i class="fi-rs-user mr-10"></i>Account details</a>
+                                       aria-selected="true"><i class="fi-rs-user mr-10"></i>Детали личного кабинета</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="page-login.html"><i class="fi-rs-sign-out mr-10"></i>Logout</a>
+                                    <a class="nav-link" href="{% url 'users:logout' %}"><i
+                                            class="fi-rs-sign-out mr-10"></i>Выйти</a>
                                 </li>
                             </ul>
                         </div>
@@ -60,42 +61,33 @@
                             <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="orders-tab">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h3 class="mb-0">Your Orders</h3>
+                                        <h3 class="mb-0">Ваши заказы</h3>
                                     </div>
                                     <div class="card-body">
                                         <div class="table-responsive">
                                             <table class="table">
                                                 <thead>
                                                 <tr>
-                                                    <th>Order</th>
-                                                    <th>Date</th>
-                                                    <th>Status</th>
-                                                    <th>Total</th>
-                                                    <th>Actions</th>
+                                                    <th>Заказ</th>
+
+                                                    <th>Дата</th>
+                                                    <th>Статус</th>
+                                                    <th>Сумма</th>
+                                                    <th>Посмотреть</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <tr>
-                                                    <td>#1357</td>
-                                                    <td>March 45, 2020</td>
-                                                    <td>Processing</td>
-                                                    <td>$125.00 for 2 item</td>
-                                                    <td><a href="#" class="btn-small d-block">View</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>#2468</td>
-                                                    <td>June 29, 2020</td>
-                                                    <td>Completed</td>
-                                                    <td>$364.00 for 5 item</td>
-                                                    <td><a href="#" class="btn-small d-block">View</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>#2366</td>
-                                                    <td>August 02, 2020</td>
-                                                    <td>Completed</td>
-                                                    <td>$280.00 for 3 item</td>
-                                                    <td><a href="#" class="btn-small d-block">View</a></td>
-                                                </tr>
+                                                {% for order in orders %}
+                                                    <tr>
+                                                        <td>#{{ order.id }}</td>
+                                                        <td>{{ order.order_date }}</td>
+                                                        <td>Processing</td>
+                                                        <td>${{ order.price }}</td>
+                                                        <td><a href="#" class="btn-small d-block">View</a></td>
+                                                    </tr>
+                                                {% endfor %}
+
+
                                                 </tbody>
                                             </table>
                                         </div>
@@ -142,20 +134,23 @@
                                             <div class="card-header">
                                                 <h3 class="mb-0">Billing Address</h3>
                                             </div>
-                                            <div class="card-body">
-                                                <address>
-                                                    3522 Interstate<br/>
-                                                    75 Business Spur,<br/>
-                                                    Sault Ste. <br/>Marie, MI 49783
-                                                </address>
-                                                <p>New York</p>
-                                                <div class="account__details--footer d-flex">
-                                                    <button class="account__details--footer__btn" type="button">Edit
-                                                    </button>
-                                                    <button class="account__details--footer__btn" type="button">Delete
-                                                    </button>
+                                            {% for a in address %}
+                                                <div class="card-body">
+                                                    {{ a.user.first_name }}
+                                                    {{ a.user.last_name }}
+                                                    <address>
+                                                        {{ a.address }}
+                                                    </address>
+                                                    <p>New York</p>
+                                                    <div class="account__details--footer d-flex">
+                                                        <button class="account__details--footer__btn" type="button">Edit
+                                                        </button>
+                                                        <button class="account__details--footer__btn" type="button">
+                                                            Delete
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            {% endfor %}
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -225,21 +220,6 @@
                                                     <label>Email Address <span class="required">*</span></label>
                                                     <input required="" class="form-control" name="email" type="email"/>
                                                 </div>
-                                                <div class="form-group col-md-12">
-                                                    <label>Current Password <span class="required">*</span></label>
-                                                    <input required="" class="form-control" name="password"
-                                                           type="password"/>
-                                                </div>
-                                                <div class="form-group col-md-12">
-                                                    <label>New Password <span class="required">*</span></label>
-                                                    <input required="" class="form-control" name="npassword"
-                                                           type="password"/>
-                                                </div>
-                                                <div class="form-group col-md-12">
-                                                    <label>Confirm Password <span class="required">*</span></label>
-                                                    <input required="" class="form-control" name="cpassword"
-                                                           type="password"/>
-                                                </div>
                                                 <div class="col-md-12">
                                                     <button type="submit"
                                                             class="btn btn-fill-out submit font-weight-bold"
@@ -248,13 +228,39 @@
                                                 </div>
                                             </div>
                                         </form>
+                                        <form method="post">
+                                            <div class="form-group col-md-12">
+                                                <label>Current Password <span class="required">*</span></label>
+                                                <input required="" class="form-control" name="password"
+                                                       type="password"/>
+                                            </div>
+                                            <div class="form-group col-md-12">
+                                                <label>New Password <span class="required">*</span></label>
+                                                <input required="" class="form-control" name="npassword"
+                                                       type="password"/>
+                                            </div>
+                                            <div class="form-group col-md-12">
+                                                <label>Confirm Password <span class="required">*</span></label>
+                                                <input required="" class="form-control" name="cpassword"
+                                                       type="password"/>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <button type="submit"
+                                                        class="btn btn-fill-out submit font-weight-bold"
+                                                        name="submit" value="Submit">Save Change
+                                                </button>
+                                            </div>
+                                        </form>
+
                                     </div>
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </section>
         <!-- my account section end -->
 

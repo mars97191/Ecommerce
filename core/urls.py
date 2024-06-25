@@ -8,8 +8,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('product.urls', namespace='product')),
     path('accounts/', include('users.urls', namespace='users')),
-    path('basket/', include('basket.urls', namespace='cart')),
+    path('payment/', include('payment.urls', namespace='payment')),
+    path('cart/', include('cart.urls', namespace='cart')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('paypal/', include("paypal.standard.ipn.urls")),
     # path('accounts/', include('django.contrib.auth.urls')),
 ]
 
