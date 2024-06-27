@@ -239,85 +239,88 @@
                     console.log("Error removing product from cart:", response.message);
                 }
             },
-            error: function (response) {
-                console.log("Product removed from cart:", productId);
-                // Добавьте обработку ошибки удаления здесь
-
-            }
         });
     });
 </script>
 
 <!--обновление корзины -->
 <script>
-    $(document).ready(function () {
+        $(document).ready(function () {
+            // Обработчик нажатия кнопки +
+            $(document).on('click', '.quantity__value.increase', function () {
+                const input = $(this).siblings('.quantity__number');
+                changeQuantity(input, 1); // Увеличиваем количество на 1
+            });
 
-        // Обработчик нажатия кнопки +
-        $(document).on('click', '.quantity__value.increase', function () {
-            const input = $(this).siblings('.quantity__number');
-            changeQuantity(input, 1); // Увеличиваем количество на 1
-        });
+            // Обработчик события нажатия кнопки -
+            $(document).on('click', '.quantity__value.decrease', function () {
+                const input = $(this).siblings('.quantity__number');
+                changeQuantity(input, -1); // Уменьшаем количество на 1
+            });
 
-        // Обработчик события нажатия кнопки -
-        $(document).on('click', '.quantity__value.decrease', function () {
-            const input = $(this).siblings('.quantity__number');
-            changeQuantity(input, -1); // Уменьшаем количество на 1
-        });
-
-        // Функция изменения количества товара
-        function changeQuantity(input, change) {
-            const newValue = parseInt(input.val()) + change;
-            if (newValue >= 1) {
-                input.val(newValue).trigger('change'); // Вызываем событие изменения
+            // Функция изменения количества товара
+            function changeQuantity(input, change) {
+                const currentValue = parseInt(input.val());
+                if (!isNaN(currentValue)) {
+                    const newValue = currentValue + change;
+                    if (newValue >= 1) {
+                        input.val(newValue).trigger('change'); // Вызываем событие изменения
+                    }
+                }
             }
-        }
 
-        // Обработчик события изменения количества товара
-        $(document).on('change', '.quantity__number', function () {
-            const productId = $(this).data('product-id'); // Получаем уникальный идентификатор товара
-            const quantity = parseInt($(this).val());
-            const productRow = $(this).closest('.cart__table--body__items');
+            // Обработчик события изменения количества товара
+            $(document).on('change', '.quantity__number', function () {
+                const productId = $(this).data('product-id');
+                const quantity = parseInt($(this).val());
+                const productRow = $(this).closest('.cart__table--body__items');
 
-            // Обновляем общую сумму товара в строке корзины
-            const pricePerItem = parseFloat(productRow.find('.cart__price').text());
-            const total = quantity * pricePerItem;
-            productRow.find('.cart__price.end').text(total.toFixed(1));
-
-            // Обновляем общую сумму корзины
-            updateCartTotal();
-
-            // Обновляем количество товаров в корзине
-            updateCartCount();
+                if (!isNaN(quantity) && quantity > 0) {
+                    const priceText = productRow.find('.cart__price').first().text();
+                    const pricePerItem = parseFloat(priceText.replace(/[^0-9.-]+/g, ''));
+                    if (!isNaN(pricePerItem)) {
+                        const total = quantity * pricePerItem;
+                        productRow.find('.cart__price.end').text(total.toFixed(1));
 
 
-        });
+                        // Обновляем общую сумму корзины
+                        updateCartTotal();
 
-        // Функция для обновления общей суммы корзины
-        function updateCartTotal() {
-            let totalAmount = 0;
-            $('.cart__table--body__items').each(function () {
-                const quantity = parseInt($(this).find('.quantity__number').val());
-                const pricePerItem = parseFloat($(this).find('.cart__price').text());
-                if (!isNaN(quantity) && !isNaN(pricePerItem)) {
-                    totalAmount += quantity * pricePerItem;
+                        // Обновляем количество товаров в корзине
+                        updateCartCount();
+                    }
                 }
             });
-            $('#cart-total-amount').text(totalAmount.toFixed(1)); // Обновляем отображение общей суммы корзины
-        }
-
-        // Функция для обновления количества товаров в корзине
-        function updateCartCount() {
-            let totalQuantity = 0;
-            $('.quantity__number').each(function () {
-                totalQuantity += parseInt($(this).val());
-            });
-            $('#lblCartCount').text(totalQuantity);
-        }
 
 
 
-    });
-</script>
+            // Функция для обновления общей суммы корзины
+            function updateCartTotal() {
+                let totalAmount = 0;
+                $('.cart__table--body__items').each(function () {
+                    const quantity = parseInt($(this).find('.quantity__number').val());
+                    const priceText = $(this).find('.cart__price').first().text();
+                    const pricePerItem = parseFloat(priceText.replace(/[^0-9.-]+/g, ''));
+                    if (!isNaN(quantity) && !isNaN(pricePerItem)) {
+                        totalAmount += quantity * pricePerItem;
+                    }
+                });
+                $('#cart-total-amount').text(totalAmount.toFixed(1));
+            }
+
+            // Функция для обновления количества товаров в корзине
+            function updateCartCount() {
+                let totalQuantity = 0;
+                $('.quantity__number').each(function () {
+                    const quantity = parseInt($(this).val());
+                    if (!isNaN(quantity)) {
+                        totalQuantity += quantity;
+                    }
+                });
+                $('#lblCartCount').text(totalQuantity);
+            }
+        });
+    </script>
 
 </body>
 </html>
