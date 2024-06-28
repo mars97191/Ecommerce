@@ -232,7 +232,7 @@
                             </div>
 {#                            <button class="checkout__now--btn primary__btn"#}
 {#                                    type="submit">{{ paypal_payment_button.render }}</button>#}
-                        <form action="{% url 'payment:checkout' %}" method="post">
+                        <form action="{% url 'payment:payment_process' %}" method="post">
                             <input type="submit" value="Pay now">
                             {% csrf_token %}
                         </form>

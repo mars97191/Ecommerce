@@ -6,10 +6,10 @@ from  .import views
 app_name = 'payment'
 
 urlpatterns = [
-   path('payment-success/', views.payment_success, name='payment_success'),
-   path('payment-fail/', views.payment_fail, name='payment_fail'),
-   # path('shipping/', views.shipping, name='shipping'),
+   path('process/', views.payment_process, name='payment_process'),
+   path('completed/', views.payment_completed, name='payment_completed'),
+   path('canseled/', views.payment_canceled, name='payment_canceled'),
    path('checkout/', views.checkout, name='checkout'),
-   path('complete-order/', views.complete_order, name='complete_order')
+
 
 ]

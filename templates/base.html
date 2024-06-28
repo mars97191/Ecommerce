@@ -246,80 +246,103 @@
 <!--обновление корзины -->
 <script>
         $(document).ready(function () {
-            // Обработчик нажатия кнопки +
-            $(document).on('click', '.quantity__value.increase', function () {
-                const input = $(this).siblings('.quantity__number');
-                changeQuantity(input, 1); // Увеличиваем количество на 1
-            });
+    // Обработчик нажатия кнопки +
+    $(document).on('click', '.quantity__value.increase', function () {
+        const input = $(this).siblings('.quantity__number');
+        changeQuantity(input, 1); // Увеличиваем количество на 1
+    });
 
-            // Обработчик события нажатия кнопки -
-            $(document).on('click', '.quantity__value.decrease', function () {
-                const input = $(this).siblings('.quantity__number');
-                changeQuantity(input, -1); // Уменьшаем количество на 1
-            });
+    // Обработчик события нажатия кнопки -
+    $(document).on('click', '.quantity__value.decrease', function () {
+        const input = $(this).siblings('.quantity__number');
+        changeQuantity(input, -1); // Уменьшаем количество на 1
+    });
 
-            // Функция изменения количества товара
-            function changeQuantity(input, change) {
-                const currentValue = parseInt(input.val());
-                if (!isNaN(currentValue)) {
-                    const newValue = currentValue + change;
-                    if (newValue >= 1) {
-                        input.val(newValue).trigger('change'); // Вызываем событие изменения
-                    }
-                }
+    // Функция изменения количества товара
+    function changeQuantity(input, change) {
+        const currentValue = parseInt(input.val());
+        if (!isNaN(currentValue)) {
+            const newValue = currentValue + change;
+            if (newValue >= 1) {
+                input.val(newValue).trigger('change'); // Вызываем событие изменения
             }
+        }
+    }
 
-            // Обработчик события изменения количества товара
-            $(document).on('change', '.quantity__number', function () {
-                const productId = $(this).data('product-id');
-                const quantity = parseInt($(this).val());
-                const productRow = $(this).closest('.cart__table--body__items');
+    // Обработчик события изменения количества товара
+    $(document).on('change', '.quantity__number', function () {
+        const productId = $(this).data('product-id');
+        const quantity = parseInt($(this).val());
+        const productRow = $(this).closest('.cart__table--body__items');
 
-                if (!isNaN(quantity) && quantity > 0) {
-                    const priceText = productRow.find('.cart__price').first().text();
-                    const pricePerItem = parseFloat(priceText.replace(/[^0-9.-]+/g, ''));
-                    if (!isNaN(pricePerItem)) {
-                        const total = quantity * pricePerItem;
-                        productRow.find('.cart__price.end').text(total.toFixed(1));
+        if (!isNaN(quantity) && quantity > 0) {
+            const priceText = productRow.find('.cart__price').first().text();
+            const pricePerItem = parseFloat(priceText.replace(/[^0-9.-]+/g, ''));
+            if (!isNaN(pricePerItem)) {
+                const total = quantity * pricePerItem;
+                productRow.find('.cart__price.end').text(total.toFixed(1));
 
+                // Обновляем общую сумму корзины
+                updateCartTotal();
 
-                        // Обновляем общую сумму корзины
-                        updateCartTotal();
+                // Обновляем количество товаров в корзине
+                updateCartCount();
 
-                        // Обновляем количество товаров в корзине
-                        updateCartCount();
-                    }
-                }
-            });
-
-
-
-            // Функция для обновления общей суммы корзины
-            function updateCartTotal() {
-                let totalAmount = 0;
-                $('.cart__table--body__items').each(function () {
-                    const quantity = parseInt($(this).find('.quantity__number').val());
-                    const priceText = $(this).find('.cart__price').first().text();
-                    const pricePerItem = parseFloat(priceText.replace(/[^0-9.-]+/g, ''));
-                    if (!isNaN(quantity) && !isNaN(pricePerItem)) {
-                        totalAmount += quantity * pricePerItem;
-                    }
-                });
-                $('#cart-total-amount').text(totalAmount.toFixed(1));
+                // Отправляем данные на сервер для обновления корзины
+                updateCartOnServer(productId, quantity);
             }
+        }
+    });
 
-            // Функция для обновления количества товаров в корзине
-            function updateCartCount() {
-                let totalQuantity = 0;
-                $('.quantity__number').each(function () {
-                    const quantity = parseInt($(this).val());
-                    if (!isNaN(quantity)) {
-                        totalQuantity += quantity;
-                    }
-                });
-                $('#lblCartCount').text(totalQuantity);
+    // Функция для обновления общей суммы корзины
+    function updateCartTotal() {
+        let totalAmount = 0;
+        $('.cart__table--body__items').each(function () {
+            const quantity = parseInt($(this).find('.quantity__number').val());
+            const priceText = $(this).find('.cart__price').first().text();
+            const pricePerItem = parseFloat(priceText.replace(/[^0-9.-]+/g, ''));
+            if (!isNaN(quantity) && !isNaN(pricePerItem)) {
+                totalAmount += quantity * pricePerItem;
             }
         });
+        $('#cart-total-amount').text(totalAmount.toFixed(1));
+    }
+
+    // Функция для обновления количества товаров в корзине
+    function updateCartCount() {
+        let totalQuantity = 0;
+        $('.quantity__number').each(function () {
+            const quantity = parseInt($(this).val());
+            if (!isNaN(quantity)) {
+                totalQuantity += quantity;
+            }
+        });
+        $('#lblCartCount').text(totalQuantity);
+    }
+
+    // Функция для отправки данных на сервер
+    function updateCartOnServer(productId, quantity) {
+        $.ajax({
+            url: '{% url "cart:update-cart-quantity" %}',  // Замените на актуальный URL вашего представления
+            method: 'POST',
+            data: {
+                'action': 'post',
+                'product_id': productId,
+                'product_qty': quantity,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'  // Передаем токен CSRF для защиты
+            },
+            success: function(response) {
+                // Обрабатываем успешный ответ сервера, если необходимо
+                console.log('Корзина обновлена на сервере', response);
+            },
+            error: function(xhr, status, error) {
+                // Обрабатываем ошибки
+                console.error('Ошибка при обновлении корзины на сервере:', error);
+            }
+        });
+    }
+});
+
     </script>
 
 </body>
