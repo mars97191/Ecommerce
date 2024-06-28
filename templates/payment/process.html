@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <main class="main__content_wrapper">
+
+        <!-- Start checkout page area -->
+        <div class="checkout__page--area section--padding">
+            <div class="container">
+                <div class="row">
+
+
+                    <div class="col-lg-5 col-md-6">
+                        <aside class="checkout__sidebar sidebar border-radius-10">
+                            <h2 class="checkout__order--summary__title text-center mb-15">Ваш заказ</h2>
+                            {% for item in order.items.all %}
+                                    <div class="cart__table checkout__product--table">
+                                        <table class="cart__table--inner">
+                                            <tbody class="cart__table--body">
+                                            <tr class="cart__table--body__items">
+                                                <td class="cart__table--body__list">
+                                                    <div class="product__image two  d-flex align-items-center">
+                                                        <div class="product__thumbnail border-radius-5">
+                                                            <a class="display-block"
+                                                               href=""><img
+                                                                    class="display-block border-radius-5"
+                                                                    src="{{ item.product.main_image.url }}"
+                                                                    alt="cart-product"></a>
+                                                            <span class="product__thumbnail--quantity">{{ item.qty }}</span>
+                                                        </div>
+                                                        <div class="product__description">
+                                                            <h4 class="product__description--name"><a
+                                                                    href="">{{ item.name }}</a>
+                                                            </h4>
+
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="cart__table--body__list">
+                                                    <span class="cart__price">${{ item.price|floatformat:1 }}</span>
+                                                </td>
+                                                <td class="cart__table--body__list">
+                                                    <span class="cart__price">${{ item.get_cost }}</span>
+                                                </td>
+                                            </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                            {% endfor %}
+                            <div class="checkout__discount--code">
+                                <form class="d-flex" action="#">
+                                    <label>
+                                        <input class="checkout__discount--code__input--field border-radius-5"
+                                               placeholder="Gift card or discount code" type="text">
+                                    </label>
+                                    <button class="checkout__discount--code__btn primary__btn border-radius-5"
+                                            type="submit">Apply
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="checkout__total">
+                                <table class="checkout__total--table">
+                                    <tbody class="checkout__total--body">
+                                    <tr class="checkout__total--items">
+                                        <td class="checkout__total--title text-left">Subtotal</td>
+                                        <td class="checkout__total--amount text-right">
+                                            ${{ order.get_total_cost }}</td>
+                                    </tr>
+                                    <tr class="checkout__total--items">
+                                        <td class="checkout__total--title text-left">Shipping</td>
+                                        <td class="checkout__total--calculated__text text-right">Calculated at
+                                            next
+                                            step
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tfoot class="checkout__total--footer">
+                                    <tr class="checkout__total--footer__items">
+                                        <td class="checkout__total--footer__title checkout__total--footer__list text-left">
+                                            Total
+                                        </td>
+                                        <td class="checkout__total--footer__amount checkout__total--footer__list text-right">
+                                            $860.00
+                                        </td>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <div class="payment__history mb-30">
+                                <h3 class="payment__history--title mb-20">Payment</h3>
+                                <ul class="payment__history--inner d-flex">
+                                    <li class="payment__history--list">
+                                        <button class="payment__history--link primary__btn" type="submit">Credit
+                                            Card
+                                        </button>
+                                    </li>
+                                    <li class="payment__history--list">
+                                        <button class="payment__history--link primary__btn" type="submit">Bank
+                                            Transfer
+                                        </button>
+                                    </li>
+                                    <li class="payment__history--list">
+                                        <button class="payment__history--link primary__btn" type="submit">Paypal
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+{#                            <button class="checkout__now--btn primary__btn"#}
+{#                                    type="submit">{{ paypal_payment_button.render }}</button>#}
+                        <form action="{% url 'payment:process' %}" method="post">
+                            <input type="submit" value="Pay now">
+                            {% csrf_token %}
+                        </form>
+                        </aside>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- End checkout page area -->
+    </main>
+{% endblock %}

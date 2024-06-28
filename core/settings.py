@@ -33,8 +33,7 @@ INSTALLED_APPS = [
     'cart',
     'payment',
     'paypal.standard.ipn',
-
-
+    'orders',
 
 ]
 
@@ -65,9 +64,6 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'product.context_processors.default',
                 'cart.context_processors.cart'
-
-
-
 
             ],
         },
@@ -191,6 +187,6 @@ CKEDITOR_CONFIGS = {
     }
 }
 
-
-PAYPAL_RECEIVER_EMAIL = ''
-PAYPAL_TEST = True
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51NNafxJouE5C3jarXF6bhktvpeTVKr4gEUXjwcMCpUh48r7mR9T65vIXzQxwJLgWv0req5YUYblZN3zJYQyMgfae00MfTKZtCH'
+STRIPE_PRIVATE_KEY = 'sk_test_51NNafxJouE5C3jarxQCNgv23iaytiJCVwrSPuTfWOe9xV0NU0Pki1M2NTUIpkivaXw0iYbF1PdWuA6Y0dwjFeSQI00uotH76Wb'
+STRIPE_API_VERSION = '2022-08-01'

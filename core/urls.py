@@ -8,6 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('product.urls', namespace='product')),
     path('accounts/', include('users.urls', namespace='users')),
+    path('orders/', include('orders.urls', namespace='orders')),
     path('payment/', include('payment.urls', namespace='payment')),
     path('cart/', include('cart.urls', namespace='cart')),
     path('ckeditor/', include('ckeditor_uploader.urls')),

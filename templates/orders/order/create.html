@@ -10,15 +10,15 @@
                 <div class="row">
                     <div class="col-lg-7 col-md-6">
                         <div class="main checkout__mian">
-                            <form action="#">
+
                                 <div class="checkout__content--step section__contact--information">
                                     <div class="section__header checkout__section--header d-flex align-items-center justify-content-between mb-25">
-                                        <h2 class="section__header--title h3">Контактная информация</h2>
+                                        <h2 class="section__header--title h3">Contact Information</h2>
                                         {% if not user.is_authenticated %}
                                             <p class="layout__flex--item">
-                                                У Тебя уже есть аккаунт ?
+                                                Do you already have an account?
                                                 <a class="layout__flex--item__link"
-                                                   href="{% url 'users:login' %}">Войти</a>
+                                                   href="{% url 'users:login' %}">Login</a>
                                             </p>
                                         {% endif %}
                                     </div>
@@ -31,92 +31,11 @@
                                     <p><input type="submit" value="Place order"></p>
                                     {% csrf_token %}
 
-{#                                    <div>#}
-{##}
-{#                                    </div>#}
-{##}
-{#                                    <div class="checkout__content--step section__shipping--address">#}
-{#                                        <div class="section__header mb-25">#}
-{#                                            <h2 class="section__header--title h3">Billing Details</h2>#}
-{#                                        </div>#}
-{#                                        <div class="section__shipping--address__content">#}
-{#                                            <div class="row">#}
-{#                                                <div class="col-lg-6 col-md-6 col-sm-6 mb-20">#}
-{#                                                    <div class="checkout__input--list ">#}
-{#                                                        <label class="checkout__input--label mb-5" for="input1">Полное#}
-{#                                                            Имя#}
-{#                                                            <span class="checkout__input--label__star">*</span></label>#}
-{#                                                        <input class="checkout__input--field border-radius-5"#}
-{#                                                               id="name" type="text" placeholder="Full name*"#}
-{#                                                               autocomplete="off"#}
-{#                                                               value="{{ shipping_address.full_name }}" required>#}
-{##}
-{#                                                    </div>#}
-{#                                                </div>#}
-{##}
-{#                                                <div class="col-12 mb-20">#}
-{#                                                    <div class="checkout__input--list">#}
-{#                                                        <label class="checkout__input--label mb-5" for="input3">#}
-{#                                                            Электронная почта#}
-{#                                                            <span class="checkout__input--label__star">*</span></label>#}
-{#                                                        <input class="checkout__input--field border-radius-5"#}
-{#                                                               id="email" type="email"#}
-{#                                                               placeholder="Email address*"#}
-{#                                                               autocomplete="off" value="{{ shipping_address.email }}"#}
-{#                                                               required>#}
-{##}
-{#                                                    </div>#}
-{#                                                </div>#}
-{#                                                <div class="col-12 mb-20">#}
-{#                                                    <div class="checkout__input--list">#}
-{#                                                        <label class="checkout__input--label mb-5" for="input4">Адрес#}
-{#                                                            <span class="checkout__input--label__star">*</span></label>#}
-{#                                                        <input class="checkout__input--field border-radius-5"#}
-{#                                                               id="address1" type="text"#}
-{#                                                               placeholder="Street address*"#}
-{#                                                               autocomplete="off"#}
-{#                                                               value="{{ shipping_address.street_address }}"#}
-{#                                                               required>#}
-{##}
-{#                                                    </div>#}
-{#                                                </div>#}
-{##}
-{#                                                <div class="col-12 mb-20">#}
-{#                                                    <div class="checkout__input--list">#}
-{#                                                        <label class="checkout__input--label mb-5" for="input5">Город#}
-{#                                                            <span class="checkout__input--label__star">*</span></label>#}
-{#                                                        <input class="checkout__input--field border-radius-5"#}
-{#                                                               id="city" type="text"#}
-{#                                                               placeholder="City*" autocomplete="off"#}
-{#                                                               value="{{ shipping_address.city }}" required>#}
-{##}
-{#                                                    </div>#}
-{#                                                </div>#}
-{#                                                <div class="col-lg-6 mb-20">#}
-{#                                                    <div class="checkout__input--list">#}
-{#                                                        <label class="checkout__input--label mb-5" for="country">Страна#}
-{#                                                            <span class="checkout__input--label__star">*</span></label>#}
-{#                                                        <input class="checkout__input--field border-radius-5"#}
-{#                                                               id="state" type="text" placeholder="Country"#}
-{#                                                               autocomplete="off"#}
-{#                                                               value="{{ shipping_address.country }}">#}
-{##}
-{##}
-{#                                                    </div>#}
-{#                                                </div>#}
-{#                                                <div class="col-lg-6 mb-20">#}
-{#                                                    <div class="checkout__input--list">#}
-{#                                                        <label class="checkout__input--label mb-5" for="input6">Почтовый#}
-{#                                                            код#}
-{#                                                            <span class="checkout__input--label__star">*</span></label>#}
-{#                                                        <input class="checkout__input--field border-radius-5"#}
-{#                                                               placeholder="Postal code" id="input6" type="text">#}
-{#                                                    </div>#}
-{#                                                </div>#}
-{#                                            </div>#}
-{#                                        </div>#}
-{##}
-{#                                    </div>#}
+                                    <div>
+
+                                    </div>
+
+
                                 </form>
 
 
@@ -129,11 +48,9 @@
                                 </div>
                                 <div class="checkout__content--step__footer d-flex align-items-center">
                                     <a class="continue__shipping--btn primary__btn border-radius-5"
-                                       href="{% url 'product:index' %}">Продолжить покупки</a>
-                                    <a class="previous__link--content" href="{% url 'cart:cart' %}">Вернутся в
-                                        корзину</a>
+                                       href="{% url 'product:index' %}">Continue shopping</a>
+                                    <a class="previous__link--content" href="{% url 'cart:cart' %}">Cart</a>
                                 </div>
-                            </form>
                         </div>
                     </div>
 
