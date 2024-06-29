@@ -8,12 +8,143 @@
         <div class="checkout__page--area section--padding">
             <div class="container">
                 <div class="row">
+<<<<<<< HEAD
 
+=======
+                    <div class="col-lg-7 col-md-6">
+                        <div class="main checkout__mian">
+                            <form action="#">
+                                <div class="checkout__content--step section__contact--information">
+                                    <div class="section__header checkout__section--header d-flex align-items-center justify-content-between mb-25">
+                                        <h2 class="section__header--title h3">Контактная информация</h2>
+                                        {% if not user.is_authenticated %}
+                                            <p class="layout__flex--item">
+                                                У Тебя уже есть аккаунт ?
+                                                <a class="layout__flex--item__link"
+                                                   href="{% url 'users:login' %}">Войти</a>
+                                            </p>
+                                        {% endif %}
+                                    </div>
+
+                                </div>
+
+
+                                <form id="form" method="post">
+                                    <div>
+
+                                    </div>
+
+                                    <div class="checkout__content--step section__shipping--address">
+                                        <div class="section__header mb-25">
+                                            <h2 class="section__header--title h3">Billing Details</h2>
+                                        </div>
+                                        <div class="section__shipping--address__content">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 mb-20">
+                                                    <div class="checkout__input--list ">
+                                                        <label class="checkout__input--label mb-5" for="input1">Полное
+                                                            Имя
+                                                            <span class="checkout__input--label__star">*</span></label>
+                                                        <input class="checkout__input--field border-radius-5"
+                                                               id="name" type="text" placeholder="Full name*"
+                                                               autocomplete="off"
+                                                               value="{{ shipping_address.full_name }}" required>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12 mb-20">
+                                                    <div class="checkout__input--list">
+                                                        <label class="checkout__input--label mb-5" for="input3">
+                                                            Электронная почта
+                                                            <span class="checkout__input--label__star">*</span></label>
+                                                        <input class="checkout__input--field border-radius-5"
+                                                               id="email" type="email"
+                                                               placeholder="Email address*"
+                                                               autocomplete="off" value="{{ shipping_address.email }}"
+                                                               required>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 mb-20">
+                                                    <div class="checkout__input--list">
+                                                        <label class="checkout__input--label mb-5" for="input4">Адрес
+                                                            <span class="checkout__input--label__star">*</span></label>
+                                                        <input class="checkout__input--field border-radius-5"
+                                                               id="address1" type="text"
+                                                               placeholder="Street address*"
+                                                               autocomplete="off"
+                                                               value="{{ shipping_address.street_address }}"
+                                                               required>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12 mb-20">
+                                                    <div class="checkout__input--list">
+                                                        <label class="checkout__input--label mb-5" for="input5">Город
+                                                            <span class="checkout__input--label__star">*</span></label>
+                                                        <input class="checkout__input--field border-radius-5"
+                                                               id="city" type="text"
+                                                               placeholder="City*" autocomplete="off"
+                                                               value="{{ shipping_address.city }}" required>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 mb-20">
+                                                    <div class="checkout__input--list">
+                                                        <label class="checkout__input--label mb-5" for="country">Страна
+                                                            <span class="checkout__input--label__star">*</span></label>
+                                                        <input class="checkout__input--field border-radius-5"
+                                                               id="state" type="text" placeholder="Country"
+                                                               autocomplete="off"
+                                                               value="{{ shipping_address.country }}">
+
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 mb-20">
+                                                    <div class="checkout__input--list">
+                                                        <label class="checkout__input--label mb-5" for="input6">Почтовый
+                                                            код
+                                                            <span class="checkout__input--label__star">*</span></label>
+                                                        <input class="checkout__input--field border-radius-5"
+                                                               placeholder="Postal code" id="input6" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </form>
+
+
+                                <div class="order-notes mb-20">
+                                    <label class="checkout__input--label mb-5" for="order">Order Notes <span
+                                            class="checkout__input--label__star">*</span></label>
+                                    <textarea class="checkout__notes--textarea__field border-radius-5" id="order"
+                                              placeholder="Notes about your order, e.g. special notes for delivery."
+                                              spellcheck="false"></textarea>
+                                </div>
+                                <div class="checkout__content--step__footer d-flex align-items-center">
+                                    <a class="continue__shipping--btn primary__btn border-radius-5"
+                                       href="{% url 'product:index' %}">Продолжить покупки</a>
+                                    <a class="previous__link--content" href="{% url 'cart:cart' %}">Вернутся в
+                                        корзину</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+>>>>>>> origin/master
 
                     <div class="col-lg-5 col-md-6">
                         <aside class="checkout__sidebar sidebar border-radius-10">
                             <h2 class="checkout__order--summary__title text-center mb-15">Ваш заказ</h2>
+<<<<<<< HEAD
                             {% for item in order.items.all %}
+=======
+                            {% for item in cart %}
+>>>>>>> origin/master
                                     <div class="cart__table checkout__product--table">
                                         <table class="cart__table--inner">
                                             <tbody class="cart__table--body">
@@ -40,7 +171,11 @@
                                                     <span class="cart__price">${{ item.price|floatformat:1 }}</span>
                                                 </td>
                                                 <td class="cart__table--body__list">
+<<<<<<< HEAD
                                                     <span class="cart__price">${{ item.get_cost }}</span>
+=======
+                                                    <span class="cart__price">${% widthratio item.price 1 item.qty %}</span>
+>>>>>>> origin/master
                                                 </td>
                                             </tr>
 
@@ -66,7 +201,11 @@
                                     <tr class="checkout__total--items">
                                         <td class="checkout__total--title text-left">Subtotal</td>
                                         <td class="checkout__total--amount text-right">
+<<<<<<< HEAD
                                             ${{ order.get_total_cost }}</td>
+=======
+                                            ${{ cart.get_total_price }}</td>
+>>>>>>> origin/master
                                     </tr>
                                     <tr class="checkout__total--items">
                                         <td class="checkout__total--title text-left">Shipping</td>
@@ -109,7 +248,11 @@
                             </div>
 {#                            <button class="checkout__now--btn primary__btn"#}
 {#                                    type="submit">{{ paypal_payment_button.render }}</button>#}
+<<<<<<< HEAD
                         <form action="{% url 'payment:process' %}" method="post">
+=======
+                        <form action="{% url 'payment:payment_process' %}" method="post">
+>>>>>>> origin/master
                             <input type="submit" value="Pay now">
                             {% csrf_token %}
                         </form>
@@ -120,5 +263,53 @@
             </div>
         </div>
         <!-- End checkout page area -->
+<<<<<<< HEAD
+=======
+
+        <!-- Start shipping section -->
+        <section class="shipping__section">
+            <div class="container">
+                <div class="shipping__inner style2 d-flex">
+                    <div class="shipping__items style2 d-flex align-items-center">
+                        <div class="shipping__icon">
+                            <img src="assets/img/other/shipping1.webp" alt="icon-img">
+                        </div>
+                        <div class="shipping__content">
+                            <h2 class="shipping__content--title h3">Free Shipping</h2>
+                            <p class="shipping__content--desc">Free shipping over $100</p>
+                        </div>
+                    </div>
+                    <div class="shipping__items style2 d-flex align-items-center">
+                        <div class="shipping__icon">
+                            <img src="assets/img/other/shipping2.webp" alt="icon-img">
+                        </div>
+                        <div class="shipping__content">
+                            <h2 class="shipping__content--title h3">Support 24/7</h2>
+                            <p class="shipping__content--desc">Contact us 24 hours a day</p>
+                        </div>
+                    </div>
+                    <div class="shipping__items style2 d-flex align-items-center">
+                        <div class="shipping__icon">
+                            <img src="assets/img/other/shipping3.webp" alt="icon-img">
+                        </div>
+                        <div class="shipping__content">
+                            <h2 class="shipping__content--title h3">100% Money Back</h2>
+                            <p class="shipping__content--desc">You have 30 days to Return</p>
+                        </div>
+                    </div>
+                    <div class="shipping__items style2 d-flex align-items-center">
+                        <div class="shipping__icon">
+                            <img src="assets/img/other/shipping4.webp" alt="icon-img">
+                        </div>
+                        <div class="shipping__content">
+                            <h2 class="shipping__content--title h3">Payment Secure</h2>
+                            <p class="shipping__content--desc">We ensure secure payment</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End shipping section -->
+>>>>>>> origin/master
     </main>
 {% endblock %}
