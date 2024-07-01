@@ -16,13 +16,64 @@
                                 </div>
 
                             </div>
-                            <form method="post" class="order-form">
-                                {{ form.as_p }}
+                            <form id="form" method="post">
+                                <div>
+                                </div>
+                                <div class="checkout__content--step section__shipping--address">
+                                    <div class="section__shipping--address__content">
+                                        <div class="row">
+                                            <div class="col-lg-6 mb-20">
+                                                <div class="checkout__input--list">
+                                                    <label class="checkout__input--label mb-4"
+                                                           for="country">Имя:</label>
+                                                    {{ form.first_name }}
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 mb-20">
+                                                <div class="checkout__input--list">
+                                                    <label class="checkout__input--label mb-4"
+                                                           for="country">Фамилия:</label>
+                                                    {{ form.last_name }}
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 mb-20">
+                                                <div class="checkout__input--list">
+                                                    <label class="checkout__input--label mb-4"
+                                                           for="country">Email:</label>
+                                                    {{ form.email }}
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 mb-20">
+                                                <div class="checkout__input--list">
+                                                    <label class="checkout__input--label mb-4"
+                                                           for="state">Адрес:</label>
+                                                    {{ form.address }}
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 mb-20">
+                                                <div class="checkout__input--list">
+                                                    <label class="checkout__input--label mb-4"
+                                                           for="country">Город:</label>
+                                                    {{ form.city }}
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 mb-20">
+                                                <div class="checkout__input--list">
+                                                    <label class="checkout__input--label mb-4"
+                                                           for="state">Почтовый код:</label>
+                                                    {{ form.postal_code }}
+                                                </div>
+                                            </div>
 
-                                <p><input type="submit" value="Place order"></p>
-                                {% csrf_token %}
+                                            <p><input type="submit" value="Place order"></p>
+                                            {% csrf_token %}
+                                        </div>
+                                    </div>
 
+                                </div>
                             </form>
+
+
                         </div>
                     </div>
 

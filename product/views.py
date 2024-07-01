@@ -41,6 +41,17 @@ def products_by_category(request, slug=None):
     # Получаем все продукты, относящиеся к данной категории
     products = Product.objects.filter(category=category)
 
+    # Получаем параметры фильтрации из GET запроса
+    min_price = request.GET.get('min_price')
+    max_price = request.GET.get('max_price')
+
+    # Применяем фильтры по цене, если они заданы
+    if min_price:
+        products = products.filter(price__gte=min_price)
+    if max_price:
+        products = products.filter(price__lte=max_price)
+
+
     calculate_average_rating(products)
 
     return render(request, 'product/shop.html',

@@ -40,7 +40,7 @@
                                                     <div class="cart__content">
                                                         <h4 class="cart__content--title h4"
                                                             style="word-wrap: break-word;">
-                                                            <a href="">{{ product.name }}</a>
+                                                            <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
                                                         </h4>
                                                     </div>
                                                 </td>
@@ -59,8 +59,12 @@
                                                     </div>
                                                 </td>
                                                 <td class="cart__table--body__list">
-                                                    <span class="cart__price end">{{ product.price }}</span>
+                                                    <span class="cart__price end">
+                                                        {% widthratio item.price 1 item.qty as price_per_item %}
+                                                        {{ price_per_item|floatformat:"1" }}
+                                                    </span>
                                                 </td>
+
                                                 <td class="cart__table--body__list">
                                                     <button type="button" class="cart__remove--btn delete-button"
                                                             data-index="{{ product.id }}">
@@ -88,50 +92,45 @@
 
                                 <div class="checkout__discount--code">
                                     <form class="d-flex" action="{% url 'coupons:coupon_apply' %}" method="post">
-                                        {#                                        <label>#}
-                                        {#                                            <input class="checkout__discount--code__input--field border-radius-5"#}
-                                        {#                                                   placeholder="Gift card or discount code" type="text">#}
-                                        {#                                        </label>#}
-                                        {#                                        <button class="checkout__discount--code__btn primary__btn border-radius-5"#}
-                                        {#                                                type="submit">Apply#}
-                                        {#                                        </button>#}
-                                        {% csrf_token %}
-                                        {{ coupon_apply_form }}
+                                        <label>
+                                            {{ coupon_apply_form.code }}
+                                        </label>
                                         <input class="checkout__discount--code__btn primary__btn border-radius-5"
                                                type="submit" value="Apply">
+                                        {% csrf_token %}
                                     </form>
                                 </div>
                                 <div class="checkout__total">
                                     <table class="checkout__total--table">
 
 
-                                            <tbody class="checkout__total--body">
+                                        <tbody class="checkout__total--body">
 
-                                            <tr class="checkout__total--items">
-                                                <td class="checkout__total--title text-left">Сумма</td>
-                                                <td class="checkout__total--amount text-right">
+                                        <tr class="checkout__total--items">
+                                            <td class="checkout__total--title text-left">Сумма</td>
+                                            <td class="checkout__total--amount text-right">
 
-                                                     {{ cart.get_total_price }} ₽ </td>
+                                                {{ cart.get_total_price }} ₽
+                                            </td>
 
-                                            </tr>
-                                             {% if cart.coupon %}
+                                        </tr>
+                                        {% if cart.coupon %}
                                             <tr class="checkout__total--items">
                                                 <td class="checkout__total--title text-left">Скидка</td>
                                                 <td class="checkout__total--calculated__text text-right">
-                                                    -  {{ cart.get_discount|floatformat:2 }} ₽ ({{ cart.coupon.discount }}%)
+                                                    - {{ cart.get_discount|floatformat:2 }} ₽
+                                                    ({{ cart.coupon.discount }}%)
                                                 </td>
                                             </tr>
-                                                  {% else %}
-                                                 <tr class="checkout__total--items">
-                                                <td class="checkout__total--title text-left">Скидка</td>
-                                                <td class="checkout__total--calculated__text text-right">
+                                        {% else %}
+                                            <tr class="checkout__total--items">
+                                            <td class="checkout__total--title text-left">Скидка</td>
+                                            <td class="checkout__total--calculated__text text-right">
 
-                                                    - {{ cart.get_discount|floatformat:2 }}
-                                                </td>
+                                                - {{ cart.get_discount|floatformat:2 }}
+                                            </td>
 
-                                            {% endif %}
-
-
+                                        {% endif %}
 
 
                                         <tfoot class="checkout__total--footer">
@@ -140,7 +139,7 @@
                                                 Общая сумма
                                             </td>
                                             <td class="checkout__total--footer__amount checkout__total--footer__list text-right">
-                                                 {{ cart.get_total_price_after_discount|floatformat:2 }} ₽
+                                                {{ cart.get_total_price_after_discount|floatformat:2 }} ₽
                                             </td>
                                         </tr>
                                         </tfoot>
@@ -151,11 +150,7 @@
                                     <p class="cart__summary--footer__desc">Shipping & taxes calculated at
                                         checkout</p>
                                     <ul class="d-flex justify-content-between">
-                                        <li>
-                                            <button class="cart__summary--footer__btn primary__btn cart"
-                                                    type="submit">Update Cart
-                                            </button>
-                                        </li>
+
                                         <li><a class="cart__summary--footer__btn primary__btn checkout"
                                                href="{% url 'orders:order_create' %}">Оформить заказ</a></li>
                                     </ul>

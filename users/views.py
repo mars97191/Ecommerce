@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
+from orders.models import Order
 from .models import ShippingAddress
 from users.forms import UserLoginForm, UserRegisterForm, ShippingAddressForm
 
@@ -24,6 +25,8 @@ class RegisterView(CreateView):
 
 @login_required(login_url='users:login')
 def dashboard(request):
+    orders = Order.objects.filter(user=request.user)
+
     try:
         shipping_address = ShippingAddress.objects.get(user=request.user)
     except ShippingAddress.DoesNotExist:
@@ -38,7 +41,7 @@ def dashboard(request):
             shipping_address.user = request.user
             shipping_address.save()
             return redirect('users:dashboard')
-    return render(request, 'accounts/profile.html', {'form': form})
+    return render(request, 'accounts/profile.html', {'form': form, 'orders': orders})
 
 
 class CustomLogoutView(LogoutView):

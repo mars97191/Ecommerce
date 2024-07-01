@@ -102,48 +102,22 @@
                                                 class="quantity__value quickview__value--quantity decrease"
                                                 aria-label="quantity value" value="Decrease Value">-
                                         </button>
-                                        <label>
+                                        <label for="product-quantity" >
                                             <input type="number" class="quantity__number quickview__value--number"
-                                                   value="1" data-counter/>
+                                                   value="1"  id="product-quantity" data-counter/>
                                         </label>
                                         <button type="button"
                                                 class="quantity__value quickview__value--quantity increase"
                                                 aria-label="quantity value" value="Increase Value">+
                                         </button>
                                     </div>
-                                    <button class="primary__btn quickview__cart--btn" type="submit">Add To Cart</button>
+
                                     <button type="button" id="add-to-cart-detail" value="{{ product.id }}"
-                                                    class="product__card--btn primary__btn add-to-cart-btn">
+                                                    class="primary__btn quickview__cart--btn">
                                                 Добавить в корзину
                                             </button>
                                 </div>
 
-
-                                <div class="col">
-
-                                    <div class="row p-3">
-                                        <div class="col-6 styled-div">
-                                            <label for="product-quantity" class="styled-label">Qty</label>
-                                            &nbsp;
-                                            <select id="product-quantity" class="styled-select">
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                            </select>
-                                        </div>
-
-
-                                        <div class="col-6 text-end">
-                                            <button type="button" id="add-to-cart-detail" value="{{ product.id }}"
-                                                    class="product__card--btn primary__btn add-to-cart-btn">
-                                                Добавить в корзину
-                                            </button>
-                                        </div>
-                                    </div>
-
-
-                                </div>
 
                                 <div class="product__variant--list mb-15">
                                     <a class="variant__wishlist--icon mb-15 add-to-wishlist-btn"
