@@ -13,6 +13,7 @@ urlpatterns = [
     path('cart/', include('cart.urls', namespace='cart')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('paypal/', include("paypal.standard.ipn.urls")),
+    path('coupons/', include('coupons.urls', namespace='coupons')),
     # path('accounts/', include('django.contrib.auth.urls')),
 ]
 

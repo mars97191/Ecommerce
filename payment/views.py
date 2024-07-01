@@ -30,15 +30,23 @@ def payment_process(request):
                 'price_data': {
                     'unit_amount': int(item.price * Decimal('100')),
                     'currency': 'usd',
-                    'product_data': {'name': item.product.name,},
+                    'product_data': {'name': item.product.name, },
                 },
                 'quantity': item.quantity
             })
+        # купон stripe
+        if order.coupon:
+            stripe_coupon = stripe.Coupon.create(
+                name=order.coupon.code,
+                percent_off=order.discount,
+                duration='once')
+            session_data['discounts'] = [{
+                'coupon': stripe_coupon.id
+            }]
         session = stripe.checkout.Session.create(**session_data)
         return redirect(session.url, code=303)
     else:
         return render(request, 'payment/process.html', locals())
-
 
 
 def payment_completed(request):

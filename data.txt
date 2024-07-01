@@ -1,3 +1,9 @@
 C:\Users\My comp\Documents\NewStore\.venv\Lib\site-packages\django\contrib\auth\views.py
 class RedirectURLMixin:
     next_page = 'product:index' #  было None
+
+запуск Redis
+docker run -it --rm --name redis -p 6379:6379 redis
+
+запуск Webhook Stripe
+ .\stripe listen --forward-to localhost:8000/payment/webhook/

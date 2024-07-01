@@ -85,40 +85,68 @@
                         </div>
                         <div class="col-lg-4">
                             <div class="cart__summary border-radius-10">
-                                <div class="coupon__code mb-30">
-                                    <h3 class="coupon__code--title">Coupon</h3>
-                                    <p class="coupon__code--desc">Enter your coupon code if you have one.</p>
-                                    <div class="coupon__code--field d-flex">
-                                        <label>
-                                            <input class="coupon__code--field__input border-radius-5"
-                                                   placeholder="Coupon code" type="text">
-                                        </label>
-                                        <button class="coupon__code--field__btn primary__btn" type="submit">Apply
-                                            Coupon
-                                        </button>
-                                    </div>
+
+                                <div class="checkout__discount--code">
+                                    <form class="d-flex" action="{% url 'coupons:coupon_apply' %}" method="post">
+                                        {#                                        <label>#}
+                                        {#                                            <input class="checkout__discount--code__input--field border-radius-5"#}
+                                        {#                                                   placeholder="Gift card or discount code" type="text">#}
+                                        {#                                        </label>#}
+                                        {#                                        <button class="checkout__discount--code__btn primary__btn border-radius-5"#}
+                                        {#                                                type="submit">Apply#}
+                                        {#                                        </button>#}
+                                        {% csrf_token %}
+                                        {{ coupon_apply_form }}
+                                        <input class="checkout__discount--code__btn primary__btn border-radius-5"
+                                               type="submit" value="Apply">
+                                    </form>
                                 </div>
-                                <div class="cart__summary--total mb-20">
-                                    <table class="cart__summary--total__table">
-                                        <tbody>
-                                        <tr class="cart__summary--total__list">
-                                            <td class="cart__summary--total__title text-left">SUBTOTAL</td>
-                                            <td>
-
-                                                <div id="cart-total-amount"
-                                                     class="cart__summary--amount text-right"> {{ cart.get_total_price }}
-                                                </div>
+                                <div class="checkout__total">
+                                    <table class="checkout__total--table">
 
 
+                                            <tbody class="checkout__total--body">
+
+                                            <tr class="checkout__total--items">
+                                                <td class="checkout__total--title text-left">Сумма</td>
+                                                <td class="checkout__total--amount text-right">
+
+                                                     {{ cart.get_total_price }} ₽ </td>
+
+                                            </tr>
+                                             {% if cart.coupon %}
+                                            <tr class="checkout__total--items">
+                                                <td class="checkout__total--title text-left">Скидка</td>
+                                                <td class="checkout__total--calculated__text text-right">
+                                                    -  {{ cart.get_discount|floatformat:2 }} ₽ ({{ cart.coupon.discount }}%)
+                                                </td>
+                                            </tr>
+                                                  {% else %}
+                                                 <tr class="checkout__total--items">
+                                                <td class="checkout__total--title text-left">Скидка</td>
+                                                <td class="checkout__total--calculated__text text-right">
+
+                                                    - {{ cart.get_discount|floatformat:2 }}
+                                                </td>
+
+                                            {% endif %}
+
+
+
+
+                                        <tfoot class="checkout__total--footer">
+                                        <tr class="checkout__total--footer__items">
+                                            <td class="checkout__total--footer__title checkout__total--footer__list text-left">
+                                                Общая сумма
+                                            </td>
+                                            <td class="checkout__total--footer__amount checkout__total--footer__list text-right">
+                                                 {{ cart.get_total_price_after_discount|floatformat:2 }} ₽
                                             </td>
                                         </tr>
-                                        <tr class="cart__summary--total__list">
-                                            <td class="cart__summary--total__title text-left">GRAND TOTAL</td>
-                                            <td class="cart__summary--amount text-right">$860.00</td>
-                                        </tr>
-                                        </tbody>
+                                        </tfoot>
                                     </table>
                                 </div>
+
                                 <div class="cart__summary--footer">
                                     <p class="cart__summary--footer__desc">Shipping & taxes calculated at
                                         checkout</p>

@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_POST
 
 from cart.cart import Cart
+from coupons.forms import CouponForm
 from product.models import Product
 
 
@@ -33,9 +34,11 @@ def add_to_cart(request):
 
 def cart_view(request):
     cart = Cart(request)
+    coupon_apply_form = CouponForm()
 
     context = {
-        'cart': cart
+        'cart': cart,
+        'coupon_apply_form':coupon_apply_form
     }
 
     return render(request, "cart/cart/detail.html", context)

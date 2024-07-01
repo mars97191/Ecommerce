@@ -1,8 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/.gitignore" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cart/__init__.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cart/admin.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cart/apps.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cart/cart.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cart/context_processors.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cart/migrations/__init__.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cart/models.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cart/tests.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cart/urls.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/core/__init__.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/core/asgi.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/core/celery.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/core/settings.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/core/urls.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/core/wsgi.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/manage.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/orders/__init__.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/orders/admin.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/orders/apps.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/orders/form.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/orders/migrations/0001_initial.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/orders/migrations/0002_order_stripe_id.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/orders/migrations/__init__.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/orders/tasks.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/orders/tests.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/orders/urls.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/orders/views.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/payment/__init__.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/payment/admin.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/payment/apps.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/payment/migrations/__init__.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/payment/models.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/payment/tests.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/payment/urls.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/payment/views.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/payment/webhooks.py" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/product.json" charset="windows-1251" />
-    <file url="file://$PROJECT_DIR$/product_fixture.json" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/product/__init__.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/product/apps.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/product/context_processors.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/product/migrations/__init__.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/product/recommender.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/product/tests.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/product/urls.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/product_fixture.json" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/templates/cart/cart/cart-view.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/templates/cart/newpay/payment/checkout.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/templates/cart/newpay/payment/payment-failed.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/templates/cart/newpay/payment/payment-success.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/templates/cart/payment/payment-failed.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/templates/orders/order/created.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/templates/payment/canceled.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/templates/payment/completed.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/templates/product/rating.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/templates/registration/password_change_done.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/templates/registration/password_change_form.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/templates/registration/register.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/users/__init__.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/users/admin.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/users/apps.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/users/migrations/0001_initial.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/users/migrations/__init__.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/users/tests.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/users/urls.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/users/views.py" charset="UTF-8" />
     <file url="PROJECT" charset="windows-1251" />
   </component>
 </project>

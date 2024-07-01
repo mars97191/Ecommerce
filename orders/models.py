@@ -1,5 +1,10 @@
-from django.db import models
+from decimal import Decimal
 
+from django.conf import settings
+from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
+
+from coupons.models import Coupon
 from product.models import Product
 
 
@@ -13,19 +18,44 @@ class Order(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     paid = models.BooleanField(default=False)
-
-
+    stripe_id = models.CharField(max_length=250, blank=True)
+    coupon = models.ForeignKey(Coupon,related_name='orders', null=True,blank=True, on_delete=models.SET_NULL)
+    discount = models.IntegerField(default=0,validators=[MinValueValidator(0), MaxValueValidator(100)])
     class Meta:
         ordering = ['-created']
         indexes = [
-            models.Index(fields=['-created',])
+            models.Index(fields=['-created', ])
         ]
 
     def __str__(self):
         return f'Заказ: {self.id}'
 
+
+
+    def get_stripe_url(self):
+        if not self.stripe_id:
+            # никаких ассоциированных платежей
+            return ''
+        if '_test_' in settings.STRIPE_PRIVATE_KEY:
+            # путь Stripe для тестовых платежей
+            path = '/test/'
+        else:
+            # путь Stripe для настоящих платежей
+            path = '/'
+        return f'https://dashboard.stripe.com{path}payment/{self.stripe_id}'
+
     def get_total_cost(self):
+        total_cost = self.get_total_cost_before_discount()
+        return total_cost - self.get_discount()
+
+    def get_total_cost_before_discount(self):
         return sum(item.get_cost() for item in self.items.all())
+
+    def get_discount(self):
+        total_cost = self.get_total_cost_before_discount()
+        if self.discount:
+            return total_cost * (self.discount/Decimal(100))
+        return Decimal(0)
 
 
 class OrderItem(models.Model):
@@ -35,7 +65,6 @@ class OrderItem(models.Model):
         Product, on_delete=models.CASCADE, related_name='order_items')
     price = models.DecimalField(max_digits=9, decimal_places=2)
     quantity = models.IntegerField(default=1)
-
 
     def __str__(self):
         return f'Номер товара: {self.id}'

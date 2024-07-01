@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'payment',
     'paypal.standard.ipn',
     'orders',
+    'coupons',
 
 ]
 
@@ -53,8 +54,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -66,6 +66,8 @@ TEMPLATES = [
                 'cart.context_processors.cart'
 
             ],
+
+
         },
     },
 ]
@@ -187,6 +189,19 @@ CKEDITOR_CONFIGS = {
     }
 }
 
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+######################### STRIPE #########################
 STRIPE_PUBLISHABLE_KEY = 'pk_test_51NNafxJouE5C3jarXF6bhktvpeTVKr4gEUXjwcMCpUh48r7mR9T65vIXzQxwJLgWv0req5YUYblZN3zJYQyMgfae00MfTKZtCH'
 STRIPE_PRIVATE_KEY = 'sk_test_51NNafxJouE5C3jarxQCNgv23iaytiJCVwrSPuTfWOe9xV0NU0Pki1M2NTUIpkivaXw0iYbF1PdWuA6Y0dwjFeSQI00uotH76Wb'
 STRIPE_API_VERSION = '2022-08-01'
+STRIPE_WEBHOOK_SECRET = 'whsec_16ab0c3e03ba54b08a54a3c180dff2582037aa80a00d7bec437ea0f15201fc8b'
+
+######################### REDIS ########################
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
+REDIS_DB = 1
+
+

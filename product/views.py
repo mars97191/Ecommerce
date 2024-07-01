@@ -7,6 +7,7 @@ from django.shortcuts import render, get_object_or_404
 
 from product.forms import ProductReviewForm
 from product.models import Product, Category, ProductReview, Wishlist
+from product.recommender import Recommender
 
 
 def calculate_average_rating(products):
@@ -74,6 +75,9 @@ def product_detail(request, slug):
     # Вычисляем количество пустых звезд
     empty_stars_count = 5 - int(round(average_rating))
 
+    # r = Recommender()
+    # recommended_products = r.suggest_products_for([product], 4)
+
     return render(request, 'product/product-details.html', {
         'product': product,
         'images': images,
@@ -83,6 +87,7 @@ def product_detail(request, slug):
         'review_form': review_form,
         'make_review': make_review,
         'empty_stars_count': empty_stars_count,
+        # 'recommended_products': recommended_products,
     })
 
 
@@ -147,7 +152,6 @@ def wishlist(request):
     return render(request, 'product/wishlist.html', context)
 
 
-
 def add_to_wishlist(request, product_id):
     try:
         # Проверяем, существует ли уже запись о продукте в списке желаний пользователя
@@ -161,6 +165,7 @@ def add_to_wishlist(request, product_id):
         wishlist_count = Wishlist.objects.filter(user=request.user).count()
         return JsonResponse({'success': True, 'wishlist_count': wishlist_count})
 
+
 def remove_wishlist(request, product_id):
     # Находим объект Wishlist, который нужно удалить
     try:
@@ -170,4 +175,3 @@ def remove_wishlist(request, product_id):
         return JsonResponse({'success': True, 'wishlist_count': wishlist_count})
     except Wishlist.DoesNotExist:
         return JsonResponse({'success': False, 'error': 'Этот продукт не находится в вашем списке желаний'})
-
